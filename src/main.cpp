@@ -1,18 +1,32 @@
 #include <Arduino.h>
+#include <pico/stdlib.h>
+extern "C"
+{
+#include <ili9341.h>
+#include <gfx.h>
+}
 
-// put function declarations here:
-int myFunction(int, int);
+unsigned int cs = 20;
+unsigned int rst = 19;
+unsigned int dc = 18;
+unsigned int sck = 2;
+unsigned int tx = 3;
 
-void setup() {
+void setup()
+{
   // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  LCD_setPins(dc, cs, rst, sck, tx);
+  LCD_initDisplay();
+  LCD_setRotation(1);
+  GFX_createFramebuf();
 }
 
-void loop() {
+void loop()
+{
   // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  GFX_clearScreen();
+  GFX_setCursor(0, 0);
+  GFX_printf("Hello GFX!\n");
+  GFX_flush();
+  delay(500);
 }
