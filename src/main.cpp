@@ -11,6 +11,7 @@ unsigned int rst = 19;
 unsigned int dc = 18;
 unsigned int sck = 2;
 unsigned int tx = 3;
+unsigned int counter = 0;
 
 void setup()
 {
@@ -26,7 +27,9 @@ void loop()
   // put your main code here, to run repeatedly:
   GFX_clearScreen();
   GFX_setCursor(0, 0);
-  GFX_printf("Hello GFX!\n");
+  GFX_printf("Hello GFX!\n%d", counter);
+  GFX_fillCircle(counter * 5, 160, 50, 0x00FF00);
   GFX_flush();
+  counter++;
   delay(500);
 }
