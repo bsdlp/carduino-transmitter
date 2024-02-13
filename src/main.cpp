@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <pico/stdlib.h>
+#include <Screen.h>
 extern "C"
 {
 #include <ili9341.h>
@@ -22,14 +23,29 @@ void setup()
   GFX_createFramebuf();
 }
 
+void moveCircle(unsigned int counter)
+{
+  unsigned int x = counter * 5;
+
+  if (x > SCREEN_WIDTH)
+  {
+    counter = 0;
+    moveCircle(counter);
+    return;
+  }
+
+  GFX_fillCircle(x, 160, 50, 0x00FF00);
+  counter++;
+  return;
+}
+
 void loop()
 {
   // put your main code here, to run repeatedly:
   GFX_clearScreen();
   GFX_setCursor(0, 0);
   GFX_printf("Hello GFX!\n%d", counter);
-  GFX_fillCircle(counter * 5, 160, 50, 0x00FF00);
+  moveCircle(counter);
   GFX_flush();
-  counter++;
   delay(500);
 }
